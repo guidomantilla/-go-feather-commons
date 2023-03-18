@@ -1,8 +1,20 @@
 package environment
 
 import (
+	"github.com/guidomantilla/go-feather-commons/pkg/properties"
 	"strconv"
 )
+
+var _ Environment = (*DefaultEnvironment)(nil)
+
+type Environment interface {
+	GetValue(property string) EnvVar
+	GetValueOrDefault(property string, defaultValue string) EnvVar
+	GetPropertySources() []properties.PropertySource
+	AppendPropertySources(propertySources ...properties.PropertySource)
+}
+
+//
 
 type EnvVar string
 

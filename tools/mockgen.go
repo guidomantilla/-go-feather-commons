@@ -1,4 +1,4 @@
 package tools
 
-//go:generate mockgen -package environment 	-destination ../pkg/environment/mocks.go	../pkg/environment Environment
-//go:generate mockgen -package properties 	-destination ../pkg/properties/mocks.go 	../pkg/properties Properties,PropertySource
+//go:generate mockgen -source ../pkg/environment/types.go -destination ../pkg/environment/mocks.go -package=environment
+//go:generate mockgen -source ../pkg/properties/types.go -destination ../pkg/properties/mocks.go -package=properties

@@ -7,14 +7,6 @@ import (
 	"go.uber.org/zap"
 )
 
-var _ Properties = (*DefaultProperties)(nil)
-
-type Properties interface {
-	Add(property string, value string)
-	Get(property string) string
-	AsMap() map[string]string
-}
-
 // DefaultProperties
 
 type DefaultProperties struct {
