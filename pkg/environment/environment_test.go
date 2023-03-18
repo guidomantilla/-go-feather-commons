@@ -3,8 +3,9 @@ package environment
 import (
 	"testing"
 
-	"github.com/guidomantilla/go-feather-commons/pkg/properties"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/guidomantilla/go-feather-commons/pkg/properties"
 )
 
 func Test_NewDefaultEnvironment(t *testing.T) {

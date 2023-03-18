@@ -1,8 +1,9 @@
 package environment
 
 import (
-	"github.com/guidomantilla/go-feather-commons/pkg/properties"
 	"strconv"
+
+	"github.com/guidomantilla/go-feather-commons/pkg/properties"
 )
 
 var _ Environment = (*DefaultEnvironment)(nil)

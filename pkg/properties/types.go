@@ -1,6 +1,7 @@
 package properties
 
 var _ Properties = (*DefaultProperties)(nil)
+
 var _ PropertySource = (*DefaultPropertySource)(nil)
 
 type Properties interface {
