@@ -13,8 +13,8 @@ const (
 	upperCharSet   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	specialCharSet = "@#$%^&*-_!+=[]{}|\\:',.?/`~\"();<>"
 	numberSet      = "0123456789"
-	//allCharSet     = lowerCharSet + upperCharSet + specialCharSet + numberSet
-	allCharSet = lowerCharSet + upperCharSet + numberSet
+	allCharSet     = lowerCharSet + upperCharSet + specialCharSet + numberSet
+	//allCharSet = lowerCharSet + upperCharSet + numberSet
 )
 
 type DefaultPasswordGeneratorOption func(generator *DefaultPasswordGenerator)

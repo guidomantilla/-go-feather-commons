@@ -3,7 +3,7 @@ package security
 const (
 	Argon2PrefixKey = "{argon2}"
 	BcryptPrefixKey = "{bcrypt}"
-	Pbkdf2PrefixKey = "{pbkdf2"
+	Pbkdf2PrefixKey = "{pbkdf2}"
 	ScryptPrefixKey = "{scrypt}"
 )
 
