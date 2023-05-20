@@ -1,8 +1,9 @@
 package properties
 
-var _ Properties = (*DefaultProperties)(nil)
-
-var _ PropertySource = (*DefaultPropertySource)(nil)
+var (
+	_ Properties     = (*DefaultProperties)(nil)
+	_ PropertySource = (*DefaultPropertySource)(nil)
+)
 
 type Properties interface {
 	Add(property string, value string)
