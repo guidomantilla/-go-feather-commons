@@ -1,11 +1,11 @@
 package environment
 
-import "github.com/guidomantilla/go-feather-commons/pkg/properties"
+import feather_commons_properties "github.com/guidomantilla/go-feather-commons/pkg/properties"
 
 // DefaultEnvironment
 
 type DefaultEnvironment struct {
-	propertySources []properties.PropertySource
+	propertySources []feather_commons_properties.PropertySource
 }
 
 func (environment *DefaultEnvironment) GetValue(property string) EnvVar {
@@ -30,11 +30,11 @@ func (environment *DefaultEnvironment) GetValueOrDefault(property string, defaul
 	return NewEnvVar(defaultValue)
 }
 
-func (environment *DefaultEnvironment) GetPropertySources() []properties.PropertySource {
+func (environment *DefaultEnvironment) GetPropertySources() []feather_commons_properties.PropertySource {
 	return environment.propertySources
 }
 
-func (environment *DefaultEnvironment) AppendPropertySources(propertySources ...properties.PropertySource) {
+func (environment *DefaultEnvironment) AppendPropertySources(propertySources ...feather_commons_properties.PropertySource) {
 	environment.propertySources = append(environment.propertySources, propertySources...)
 }
 
@@ -44,7 +44,7 @@ type DefaultEnvironmentOption = func(environment *DefaultEnvironment)
 
 func NewDefaultEnvironment(options ...DefaultEnvironmentOption) *DefaultEnvironment {
 	environment := &DefaultEnvironment{
-		propertySources: make([]properties.PropertySource, 0),
+		propertySources: make([]feather_commons_properties.PropertySource, 0),
 	}
 	for _, opt := range options {
 		opt(environment)
@@ -53,7 +53,7 @@ func NewDefaultEnvironment(options ...DefaultEnvironmentOption) *DefaultEnvironm
 	return environment
 }
 
-func WithPropertySources(propertySources ...properties.PropertySource) DefaultEnvironmentOption {
+func WithPropertySources(propertySources ...feather_commons_properties.PropertySource) DefaultEnvironmentOption {
 	return func(environment *DefaultEnvironment) {
 		environment.propertySources = propertySources
 	}

@@ -3,7 +3,7 @@ package environment
 import (
 	"strconv"
 
-	"github.com/guidomantilla/go-feather-commons/pkg/properties"
+	feather_commons_properties "github.com/guidomantilla/go-feather-commons/pkg/properties"
 )
 
 var _ Environment = (*DefaultEnvironment)(nil)
@@ -11,8 +11,8 @@ var _ Environment = (*DefaultEnvironment)(nil)
 type Environment interface {
 	GetValue(property string) EnvVar
 	GetValueOrDefault(property string, defaultValue string) EnvVar
-	GetPropertySources() []properties.PropertySource
-	AppendPropertySources(propertySources ...properties.PropertySource)
+	GetPropertySources() []feather_commons_properties.PropertySource
+	AppendPropertySources(propertySources ...feather_commons_properties.PropertySource)
 }
 
 //
