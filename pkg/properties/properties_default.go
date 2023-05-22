@@ -7,41 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// DefaultProperties
-
-type DefaultProperties struct {
-	internalMap map[string]string
-}
-
-func (p *DefaultProperties) Add(property string, value string) {
-	if p.internalMap[property] == "" {
-		p.internalMap[property] = value
-	}
-}
-
-func (p *DefaultProperties) Get(property string) string {
-	return p.internalMap[property]
-}
-
-func (p *DefaultProperties) AsMap() map[string]string {
-	return p.internalMap
-}
-
-//
-
 type DefaultPropertiesOption func(properties *DefaultProperties)
-
-func NewDefaultProperties(options ...DefaultPropertiesOption) *DefaultProperties {
-	properties := &DefaultProperties{
-		internalMap: make(map[string]string),
-	}
-
-	for _, opt := range options {
-		opt(properties)
-	}
-
-	return properties
-}
 
 func FromArray(array *[]string) DefaultPropertiesOption {
 	return func(properties *DefaultProperties) {
@@ -56,4 +22,34 @@ func FromArray(array *[]string) DefaultPropertiesOption {
 			}
 		}
 	}
+}
+
+type DefaultProperties struct {
+	internalMap map[string]string
+}
+
+func NewDefaultProperties(options ...DefaultPropertiesOption) *DefaultProperties {
+	properties := &DefaultProperties{
+		internalMap: make(map[string]string),
+	}
+
+	for _, opt := range options {
+		opt(properties)
+	}
+
+	return properties
+}
+
+func (p *DefaultProperties) Add(property string, value string) {
+	if p.internalMap[property] == "" {
+		p.internalMap[property] = value
+	}
+}
+
+func (p *DefaultProperties) Get(property string) string {
+	return p.internalMap[property]
+}
+
+func (p *DefaultProperties) AsMap() map[string]string {
+	return p.internalMap
 }
