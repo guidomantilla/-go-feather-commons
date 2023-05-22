@@ -7,12 +7,12 @@ import (
 
 func TestValueToPtr(t *testing.T) {
 	type args struct {
-		value T
+		value any
 	}
 	tests := []struct {
 		name string
 		args args
-		want *T
+		want *any
 	}{
 		// TODO: Add test cases.
 	}
