@@ -2,9 +2,8 @@ package properties
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
-
-	"go.uber.org/zap"
 )
 
 type DefaultPropertiesOption func(properties *DefaultProperties)
@@ -15,7 +14,7 @@ func FromArray(array *[]string) DefaultPropertiesOption {
 			for _, env := range *array {
 				pair := strings.SplitN(env, "=", 2)
 				if len(pair) != 2 {
-					zap.L().Error(fmt.Sprintf("[%s=??] not a key value parameter. expected [key=value]", pair[0]))
+					slog.Error(fmt.Sprintf("[%s=??] not a key value parameter. expected [key=value]", pair[0]))
 					continue
 				}
 				properties.Add(pair[0], pair[1])
