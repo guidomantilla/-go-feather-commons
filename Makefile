@@ -35,7 +35,8 @@ update-dependencies:
 	go mod tidy
 
 prepare:
-	go install -v github.com/incu6us/goimports-reviser/v3@latest
+	go install github.com/incu6us/goimports-reviser/v3@latest
+	go install golang.org/x/tools/cmd/goimports@latest
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install github.com/golang/mock/mockgen@latest
 	go install github.com/cweill/gotests/gotests@latest
