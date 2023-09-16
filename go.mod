@@ -4,6 +4,7 @@ go 1.21.1
 
 require (
 	github.com/golang/mock v1.6.0
+	github.com/sethvargo/go-envconfig v0.9.0
 	github.com/stretchr/testify v1.8.4
 )
 

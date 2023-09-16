@@ -2,7 +2,27 @@ package environment
 
 import feather_commons_properties "github.com/guidomantilla/go-feather-commons/pkg/properties"
 
+const (
+	OsPropertySourceName  = "OS_PROPERTY_SOURCE_NAME"
+	CmdPropertySourceName = "CMD_PROPERTY_SOURCE_NAME" //nolint:gosec
+)
+
 type DefaultEnvironmentOption = func(environment *DefaultEnvironment)
+
+func WithArrays(osArgsArray *[]string, cmdArgsArray *[]string) DefaultEnvironmentOption {
+	return func(environment *DefaultEnvironment) {
+		osSource := feather_commons_properties.NewDefaultPropertySource(OsPropertySourceName, feather_commons_properties.NewDefaultProperties(feather_commons_properties.FromArray(osArgsArray)))
+		cmdSource := feather_commons_properties.NewDefaultPropertySource(CmdPropertySourceName, feather_commons_properties.NewDefaultProperties(feather_commons_properties.FromArray(cmdArgsArray)))
+		environment.propertySources = append(environment.propertySources, osSource, cmdSource)
+	}
+}
+
+func WithArraySource(name string, array *[]string) DefaultEnvironmentOption {
+	return func(environment *DefaultEnvironment) {
+		source := feather_commons_properties.NewDefaultPropertySource(name, feather_commons_properties.NewDefaultProperties(feather_commons_properties.FromArray(array)))
+		environment.propertySources = append(environment.propertySources, source)
+	}
+}
 
 func WithPropertySources(propertySources ...feather_commons_properties.PropertySource) DefaultEnvironmentOption {
 	return func(environment *DefaultEnvironment) {
