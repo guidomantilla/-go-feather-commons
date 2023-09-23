@@ -12,12 +12,12 @@ var singleton atomic.Value
 func retrieveSingleton() Logger {
 	value := singleton.Load()
 	if value == nil {
-		return DefaultLogger()
+		return Default()
 	}
 	return value.(Logger)
 }
 
-func DefaultLogger() Logger {
+func Default() Logger {
 	level := UndefinedLoggerLevel.ValueFromName(strings.ToUpper("info"))
 	format := UndefinedLoggerFormat.ValueFromName(strings.ToUpper("text"))
 	logger := NewDefaultLogger(level, format)
@@ -25,7 +25,7 @@ func DefaultLogger() Logger {
 	return logger
 }
 
-func CustomLogger() Logger {
+func Custom() Logger {
 	logLevel, logFormat := os.Getenv("LOG_LEVEL"), os.Getenv("LOG_FORMAT")
 	level := UndefinedLoggerLevel.ValueFromName(strings.ToUpper(logLevel))
 	format := UndefinedLoggerFormat.ValueFromName(strings.ToUpper(logFormat))

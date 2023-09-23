@@ -88,4 +88,9 @@ func (logger *SlogLogger) Error(ctx context.Context, msg string, args ...any) {
 
 func (logger *SlogLogger) Fatal(ctx context.Context, msg string, args ...any) {
 	logger.internal.Log(ctx, SlogLevelFatal, msg, args...)
+	os.Exit(1)
+}
+
+func (logger *SlogLogger) RetrieveLogger() any {
+	return logger.internal
 }
