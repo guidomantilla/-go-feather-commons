@@ -3,6 +3,7 @@ package log
 import (
 	"context"
 	"os"
+	"strings"
 	"sync/atomic"
 )
 
@@ -11,7 +12,7 @@ var singleton atomic.Value
 func Default() Logger {
 	value := singleton.Load()
 	if value == nil {
-		logger := NewDefaultLogger(DebugLoggerLevel)
+		logger := NewDefaultLogger(UndefinedLoggerLevel.ValueFromName(strings.ToUpper(os.Getenv("LOG_LEVEL"))))
 		singleton.Store(logger)
 		return logger
 	}

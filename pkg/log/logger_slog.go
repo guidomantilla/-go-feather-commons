@@ -25,12 +25,13 @@ var slogLevel = map[slog.Level]string{
 }
 
 var loggerLevel = map[LoggerLevel]slog.Level{
-	DebugLoggerLevel: SlogLevelDebug,
-	InfoLoggerLevel:  SlogLevelInfo,
-	WarnLoggerLevel:  SlogLevelWarning,
-	ErrorLoggerLevel: SlogLevelError,
-	FatalLoggerLevel: SlogLevelFatal,
-	OffLoggerLevel:   SlogLevelOff,
+	UndefinedLoggerLevel: SlogLevelOff,
+	DebugLoggerLevel:     SlogLevelDebug,
+	InfoLoggerLevel:      SlogLevelInfo,
+	WarnLoggerLevel:      SlogLevelWarning,
+	ErrorLoggerLevel:     SlogLevelError,
+	FatalLoggerLevel:     SlogLevelFatal,
+	OffLoggerLevel:       SlogLevelOff,
 }
 
 type SlogLogger struct {
