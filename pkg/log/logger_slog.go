@@ -2,6 +2,7 @@ package log
 
 import (
 	"context"
+	"io"
 	"log/slog"
 	"os"
 )
@@ -34,11 +35,25 @@ var loggerLevel = map[LoggerLevel]slog.Level{
 	OffLoggerLevel:       SlogLevelOff,
 }
 
+type SlogFormatHandler[T slog.Handler] func(w io.Writer, opts *slog.HandlerOptions) T
+
+var loggerFormat = map[LoggerFormat]SlogFormatHandler[slog.Handler]{
+	UndefinedLoggerFormat: func(w io.Writer, opts *slog.HandlerOptions) slog.Handler {
+		return slog.NewTextHandler(w, opts)
+	},
+	TextLoggerFormat: func(w io.Writer, opts *slog.HandlerOptions) slog.Handler {
+		return slog.NewTextHandler(w, opts)
+	},
+	JsonLoggerFormat: func(w io.Writer, opts *slog.HandlerOptions) slog.Handler {
+		return slog.NewJSONHandler(w, opts)
+	},
+}
+
 type SlogLogger struct {
 	internal *slog.Logger
 }
 
-func NewDefaultLogger(level LoggerLevel) *SlogLogger {
+func NewDefaultLogger(level LoggerLevel, format LoggerFormat) *SlogLogger {
 	opts := &slog.HandlerOptions{
 		Level: loggerLevel[level],
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
@@ -49,10 +64,9 @@ func NewDefaultLogger(level LoggerLevel) *SlogLogger {
 			return a
 		},
 	}
-	internal := slog.New(slog.NewJSONHandler(os.Stdout, opts))
+	internal := slog.New(loggerFormat[format](os.Stdout, opts))
 	slog.SetDefault(internal)
 	slogLogger := &SlogLogger{internal: internal}
-	singleton.Store(slogLogger)
 	return slogLogger
 }
 

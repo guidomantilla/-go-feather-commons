@@ -9,38 +9,53 @@ import (
 
 var singleton atomic.Value
 
-func Default() Logger {
+func retrieveSingleton() Logger {
 	value := singleton.Load()
 	if value == nil {
-		logger := NewDefaultLogger(UndefinedLoggerLevel.ValueFromName(strings.ToUpper(os.Getenv("LOG_LEVEL"))))
-		singleton.Store(logger)
-		return logger
+		return DefaultLogger()
 	}
 	return value.(Logger)
 }
 
+func DefaultLogger() Logger {
+	level := UndefinedLoggerLevel.ValueFromName(strings.ToUpper("info"))
+	format := UndefinedLoggerFormat.ValueFromName(strings.ToUpper("text"))
+	logger := NewDefaultLogger(level, format)
+	singleton.Store(logger)
+	return logger
+}
+
+func CustomLogger() Logger {
+	logLevel, logFormat := os.Getenv("LOG_LEVEL"), os.Getenv("LOG_FORMAT")
+	level := UndefinedLoggerLevel.ValueFromName(strings.ToUpper(logLevel))
+	format := UndefinedLoggerFormat.ValueFromName(strings.ToUpper(logFormat))
+	logger := NewDefaultLogger(level, format)
+	singleton.Store(logger)
+	return logger
+}
+
 func Debug(msg string, args ...any) {
-	slogLogger := Default()
+	slogLogger := retrieveSingleton()
 	slogLogger.Debug(context.Background(), msg, args...)
 }
 
 func Info(msg string, args ...any) {
-	slogLogger := Default()
+	slogLogger := retrieveSingleton()
 	slogLogger.Info(context.Background(), msg, args...)
 }
 
 func Warn(msg string, args ...any) {
-	slogLogger := Default()
+	slogLogger := retrieveSingleton()
 	slogLogger.Warn(context.Background(), msg, args...)
 }
 
 func Error(msg string, args ...any) {
-	slogLogger := Default()
+	slogLogger := retrieveSingleton()
 	slogLogger.Error(context.Background(), msg, args...)
 }
 
 func Fatal(msg string, args ...any) {
-	slogLogger := Default()
+	slogLogger := retrieveSingleton()
 	slogLogger.Fatal(context.Background(), msg, args...)
 	os.Exit(1)
 }

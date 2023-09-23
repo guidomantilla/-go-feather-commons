@@ -6,6 +6,53 @@ import (
 )
 
 const (
+	UndefinedLoggerFormat LoggerFormat = iota
+	TextLoggerFormat
+	JsonLoggerFormat
+)
+
+type LoggerFormat int
+
+func (enum LoggerFormat) String() string {
+
+	switch enum {
+	case UndefinedLoggerFormat:
+		return "undefined"
+	case TextLoggerFormat:
+		return "text"
+	case JsonLoggerFormat:
+		return "json"
+	}
+	return "undefined"
+}
+
+func (enum LoggerFormat) ValueFromName(loggerFormat string) LoggerFormat {
+	switch strings.ToLower(loggerFormat) {
+	case "undefined":
+		return UndefinedLoggerFormat
+	case "text":
+		return TextLoggerFormat
+	case "json":
+		return JsonLoggerFormat
+	}
+	return UndefinedLoggerFormat
+}
+
+func (enum LoggerFormat) ValueFromCardinal(loggerFormat int) LoggerFormat {
+	switch loggerFormat {
+	case int(UndefinedLoggerFormat):
+		return UndefinedLoggerFormat
+	case int(TextLoggerFormat):
+		return TextLoggerFormat
+	case int(JsonLoggerFormat):
+		return JsonLoggerFormat
+	}
+	return UndefinedLoggerFormat
+}
+
+//
+
+const (
 	UndefinedLoggerLevel LoggerLevel = iota
 	DebugLoggerLevel
 	InfoLoggerLevel
@@ -77,6 +124,8 @@ func (enum LoggerLevel) ValueFromCardinal(loggerLevel int) LoggerLevel {
 	}
 	return UndefinedLoggerLevel
 }
+
+//
 
 type Logger interface {
 	Debug(ctx context.Context, msg string, args ...any)
