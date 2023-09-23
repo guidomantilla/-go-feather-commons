@@ -11,7 +11,7 @@ var singleton atomic.Value
 func Default() Logger {
 	value := singleton.Load()
 	if value == nil {
-		logger := NewDefaultLogger()
+		logger := NewDefaultLogger(DebugLoggerLevel)
 		singleton.Store(logger)
 		return logger
 	}

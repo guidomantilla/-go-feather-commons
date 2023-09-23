@@ -15,39 +15,36 @@ const (
 	SlogLevelOff     = slog.Level(16)
 )
 
+var slogLevel = map[slog.Level]string{
+	SlogLevelDebug:   "DEBUG",
+	SlogLevelInfo:    "INFO",
+	SlogLevelWarning: "WARN",
+	SlogLevelError:   "ERROR",
+	SlogLevelFatal:   "FATAL",
+	SlogLevelOff:     "OFF",
+}
+
+var loggerLevel = map[LoggerLevel]slog.Level{
+	DebugLoggerLevel: SlogLevelDebug,
+	InfoLoggerLevel:  SlogLevelInfo,
+	WarnLoggerLevel:  SlogLevelWarning,
+	ErrorLoggerLevel: SlogLevelError,
+	FatalLoggerLevel: SlogLevelFatal,
+	OffLoggerLevel:   SlogLevelOff,
+}
+
 type SlogLogger struct {
 	internal *slog.Logger
 }
 
-func NewDefaultLogger() *SlogLogger {
+func NewDefaultLogger(level LoggerLevel) *SlogLogger {
 	opts := &slog.HandlerOptions{
-		Level: SlogLevelDebug,
+		Level: loggerLevel[level],
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 			if a.Key == slog.LevelKey {
 				level := a.Value.Any().(slog.Level)
-
-				// This could also look up the name from a map or other structure, but
-				// this demonstrates using a switch statement to rename levels. For
-				// maximum performance, the string values should be constants, but this
-				// example uses the raw strings for readability.
-				switch {
-				case level == SlogLevelDebug:
-					a.Value = slog.StringValue("DEBUG")
-				case level == SlogLevelInfo:
-					a.Value = slog.StringValue("INFO")
-				case level == SlogLevelWarning:
-					a.Value = slog.StringValue("WARN")
-				case level == SlogLevelError:
-					a.Value = slog.StringValue("ERROR")
-				case level == SlogLevelFatal:
-					a.Value = slog.StringValue("FATAL")
-				case level == SlogLevelOff:
-					a.Value = slog.StringValue("OFF")
-				default:
-					a.Value = slog.StringValue("INFO")
-				}
+				a.Value = slog.StringValue(slogLevel[level])
 			}
-
 			return a
 		},
 	}
