@@ -2,6 +2,7 @@ package log
 
 import (
 	"context"
+	"io"
 	"os"
 	"strings"
 	"sync/atomic"
@@ -17,17 +18,14 @@ func retrieveSingleton() Logger {
 	return value.(Logger)
 }
 
-func Default() Logger {
-	level, format := SlogLevelOff.ValueFromName("INFO"), SlogTextFormat.ValueFromName("TEXT")
-	logger := NewSlogLogger(level, format)
+func Default(writers ...io.Writer) Logger {
+	logger := NewSlogLogger(SlogLevelOff.ValueFromName("INFO"), writers...)
 	singleton.Store(logger)
 	return logger
 }
 
-func Custom() Logger {
-	logLevel, logFormat := strings.ToUpper(os.Getenv("LOG_LEVEL")), strings.ToUpper(os.Getenv("LOG_FORMAT"))
-	level, format := SlogLevelOff.ValueFromName(logLevel), SlogTextFormat.ValueFromName(logFormat)
-	logger := NewSlogLogger(level, format)
+func Custom(writers ...io.Writer) Logger {
+	logger := NewSlogLogger(SlogLevelOff.ValueFromName(strings.ToUpper(os.Getenv("LOG_LEVEL"))), writers...)
 	singleton.Store(logger)
 	return logger
 }

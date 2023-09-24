@@ -11,7 +11,7 @@ type SlogLogger struct {
 	internal *slog.Logger
 }
 
-func NewSlogLogger(level CustomSlogLevel, format CustomSlogFormat) *SlogLogger {
+func NewSlogLogger(level CustomSlogLevel, writers ...io.Writer) *SlogLogger {
 	opts := &slog.HandlerOptions{
 		Level: level.ToSlogLevel(),
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
@@ -22,7 +22,13 @@ func NewSlogLogger(level CustomSlogLevel, format CustomSlogFormat) *SlogLogger {
 			return a
 		},
 	}
-	internal := slog.New(format.SlogHandlerFunc(os.Stdout, opts))
+
+	handlers := make([]slog.Handler, 0)
+	handlers = append(handlers, SlogTextFormat.Handler(os.Stdout, opts))
+	for _, writer := range writers {
+		handlers = append(handlers, SlogJsonFormat.Handler(writer, opts))
+	}
+	internal := slog.New(NewFanoutHandler(handlers...))
 	slog.SetDefault(internal)
 	slogLogger := &SlogLogger{internal: internal}
 	return slogLogger
@@ -196,7 +202,7 @@ func (enum CustomSlogFormat) ValueFromCardinal(loggerFormat int) CustomSlogForma
 	return SlogTextFormat
 }
 
-func (enum CustomSlogFormat) SlogHandlerFunc(w io.Writer, opts *slog.HandlerOptions) slog.Handler {
+func (enum CustomSlogFormat) Handler(w io.Writer, opts *slog.HandlerOptions) slog.Handler {
 	switch enum {
 	case SlogTextFormat:
 		return slog.NewTextHandler(w, opts)
@@ -204,4 +210,9 @@ func (enum CustomSlogFormat) SlogHandlerFunc(w io.Writer, opts *slog.HandlerOpti
 		return slog.NewJSONHandler(w, opts)
 	}
 	return slog.NewTextHandler(w, opts)
+}
+
+//
+
+type CustomSlogHandler interface {
 }

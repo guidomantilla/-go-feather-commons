@@ -3,6 +3,7 @@ package log
 import (
 	"bytes"
 	"context"
+	"io"
 	"log/slog"
 	"reflect"
 	"testing"
@@ -10,8 +11,8 @@ import (
 
 func TestNewSlogLogger(t *testing.T) {
 	type args struct {
-		level  CustomSlogLevel
-		format CustomSlogFormat
+		level   CustomSlogLevel
+		writers []io.Writer
 	}
 	tests := []struct {
 		name string
@@ -22,7 +23,7 @@ func TestNewSlogLogger(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewSlogLogger(tt.args.level, tt.args.format); !reflect.DeepEqual(got, tt.want) {
+			if got := NewSlogLogger(tt.args.level, tt.args.writers...); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewSlogLogger() = %v, want %v", got, tt.want)
 			}
 		})
@@ -302,7 +303,7 @@ func TestCustomSlogFormat_ValueFromCardinal(t *testing.T) {
 	}
 }
 
-func TestCustomSlogFormat_SlogHandlerFunc(t *testing.T) {
+func TestCustomSlogFormat_Handler(t *testing.T) {
 	type args struct {
 		opts *slog.HandlerOptions
 	}
@@ -318,11 +319,11 @@ func TestCustomSlogFormat_SlogHandlerFunc(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			w := &bytes.Buffer{}
-			if got := tt.enum.SlogHandlerFunc(w, tt.args.opts); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("CustomSlogFormat.SlogHandlerFunc() = %v, want %v", got, tt.want)
+			if got := tt.enum.Handler(w, tt.args.opts); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("CustomSlogFormat.Handler() = %v, want %v", got, tt.want)
 			}
 			if gotW := w.String(); gotW != tt.wantW {
-				t.Errorf("CustomSlogFormat.SlogHandlerFunc() = %v, want %v", gotW, tt.wantW)
+				t.Errorf("CustomSlogFormat.Handler() = %v, want %v", gotW, tt.wantW)
 			}
 		})
 	}

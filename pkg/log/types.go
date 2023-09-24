@@ -4,6 +4,10 @@ import (
 	"context"
 )
 
+var (
+	_ Logger = (*SlogLogger)(nil)
+)
+
 type Logger interface {
 	Debug(ctx context.Context, msg string, args ...any)
 	Info(ctx context.Context, msg string, args ...any)
