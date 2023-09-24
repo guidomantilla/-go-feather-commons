@@ -18,15 +18,15 @@ func retrieveSingleton() Logger {
 }
 
 func Default() Logger {
-	level, format := UndefinedLoggerLevel.ValueFromName("info"), UndefinedLoggerFormat.ValueFromName("text")
+	level, format := SlogLevelOff.ValueFromName("INFO"), SlogTextFormat.ValueFromName("TEXT")
 	logger := NewSlogLogger(level, format)
 	singleton.Store(logger)
 	return logger
 }
 
 func Custom() Logger {
-	logLevel, logFormat := strings.ToLower(os.Getenv("LOG_LEVEL")), strings.ToLower(os.Getenv("LOG_FORMAT"))
-	level, format := UndefinedLoggerLevel.ValueFromName(logLevel), UndefinedLoggerFormat.ValueFromName(logFormat)
+	logLevel, logFormat := strings.ToUpper(os.Getenv("LOG_LEVEL")), strings.ToUpper(os.Getenv("LOG_FORMAT"))
+	level, format := SlogLevelOff.ValueFromName(logLevel), SlogTextFormat.ValueFromName(logFormat)
 	logger := NewSlogLogger(level, format)
 	singleton.Store(logger)
 	return logger

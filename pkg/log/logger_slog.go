@@ -11,9 +11,9 @@ type SlogLogger struct {
 	internal *slog.Logger
 }
 
-func NewSlogLogger(level LoggerLevel, format LoggerFormat) *SlogLogger {
+func NewSlogLogger(level CustomSlogLevel, format CustomSlogFormat) *SlogLogger {
 	opts := &slog.HandlerOptions{
-		Level: SlogLevelOff.ValueFromLoggerLevel(level).ToSlogLevel(),
+		Level: level.ToSlogLevel(),
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 			if a.Key == slog.LevelKey {
 				level := a.Value.Any().(slog.Level)
@@ -56,7 +56,7 @@ func (logger *SlogLogger) RetrieveLogger() any {
 //
 
 const (
-	SlogLevelDebug SlogLevel = iota
+	SlogLevelDebug CustomSlogLevel = iota
 	SlogLevelInfo
 	SlogLevelWarning
 	SlogLevelError
@@ -64,9 +64,9 @@ const (
 	SlogLevelOff
 )
 
-type SlogLevel int
+type CustomSlogLevel int
 
-func (enum SlogLevel) String() string {
+func (enum CustomSlogLevel) String() string {
 
 	switch enum {
 	case SlogLevelDebug:
@@ -85,79 +85,7 @@ func (enum SlogLevel) String() string {
 	return "OFF"
 }
 
-func (enum SlogLevel) ValueFromName(slogLevel string) SlogLevel {
-	switch slogLevel {
-	case "DEBUG":
-		return SlogLevelDebug
-	case "INFO":
-		return SlogLevelInfo
-	case "WARN":
-		return SlogLevelWarning
-	case "ERROR":
-		return SlogLevelError
-	case "FATAL":
-		return SlogLevelFatal
-	case "OFF":
-		return SlogLevelOff
-	}
-	return SlogLevelOff
-}
-
-func (enum SlogLevel) ValueFromCardinal(slogLevel int) SlogLevel {
-	switch slogLevel {
-	case int(SlogLevelDebug):
-		return SlogLevelDebug
-	case int(SlogLevelInfo):
-		return SlogLevelInfo
-	case int(SlogLevelWarning):
-		return SlogLevelWarning
-	case int(SlogLevelError):
-		return SlogLevelError
-	case int(SlogLevelFatal):
-		return SlogLevelFatal
-	case int(SlogLevelOff):
-		return SlogLevelOff
-	}
-	return SlogLevelOff
-}
-
-func (enum SlogLevel) ValueFromLoggerLevel(loggerLevel LoggerLevel) SlogLevel {
-	switch loggerLevel {
-	case DebugLoggerLevel:
-		return SlogLevelDebug
-	case InfoLoggerLevel:
-		return SlogLevelInfo
-	case WarnLoggerLevel:
-		return SlogLevelWarning
-	case ErrorLoggerLevel:
-		return SlogLevelError
-	case FatalLoggerLevel:
-		return SlogLevelFatal
-	case OffLoggerLevel:
-		return SlogLevelOff
-	}
-	return SlogLevelOff
-}
-
-func (enum SlogLevel) ValueFromSlogLevel(slogLevel slog.Level) SlogLevel {
-	switch slogLevel {
-	case slog.LevelDebug:
-		return SlogLevelDebug
-	case slog.LevelInfo:
-		return SlogLevelInfo
-	case slog.LevelWarn:
-		return SlogLevelWarning
-	case slog.LevelError:
-		return SlogLevelError
-	case slog.Level(12):
-		return SlogLevelFatal
-	case slog.Level(16):
-		return SlogLevelOff
-	}
-	return SlogLevelOff
-}
-
-func (enum SlogLevel) ToSlogLevel() slog.Level {
+func (enum CustomSlogLevel) ToSlogLevel() slog.Level {
 	switch enum {
 	case SlogLevelDebug:
 		return slog.LevelDebug
@@ -175,33 +103,104 @@ func (enum SlogLevel) ToSlogLevel() slog.Level {
 	return slog.Level(16)
 }
 
-func (enum SlogLevel) ToLoggerLevel() LoggerLevel {
-	switch enum {
-	case SlogLevelDebug:
-		return DebugLoggerLevel
-	case SlogLevelInfo:
-		return InfoLoggerLevel
-	case SlogLevelWarning:
-		return WarnLoggerLevel
-	case SlogLevelError:
-		return ErrorLoggerLevel
-	case SlogLevelFatal:
-		return FatalLoggerLevel
-	case SlogLevelOff:
-		return OffLoggerLevel
+func (enum CustomSlogLevel) ValueFromName(slogLevel string) CustomSlogLevel {
+	switch slogLevel {
+	case "DEBUG":
+		return SlogLevelDebug
+	case "INFO":
+		return SlogLevelInfo
+	case "WARN":
+		return SlogLevelWarning
+	case "ERROR":
+		return SlogLevelError
+	case "FATAL":
+		return SlogLevelFatal
+	case "OFF":
+		return SlogLevelOff
 	}
-	return OffLoggerLevel
+	return SlogLevelOff
+}
+
+func (enum CustomSlogLevel) ValueFromCardinal(slogLevel int) CustomSlogLevel {
+	switch slogLevel {
+	case int(SlogLevelDebug):
+		return SlogLevelDebug
+	case int(SlogLevelInfo):
+		return SlogLevelInfo
+	case int(SlogLevelWarning):
+		return SlogLevelWarning
+	case int(SlogLevelError):
+		return SlogLevelError
+	case int(SlogLevelFatal):
+		return SlogLevelFatal
+	case int(SlogLevelOff):
+		return SlogLevelOff
+	}
+	return SlogLevelOff
+}
+
+func (enum CustomSlogLevel) ValueFromSlogLevel(slogLevel slog.Level) CustomSlogLevel {
+	switch slogLevel {
+	case slog.LevelDebug:
+		return SlogLevelDebug
+	case slog.LevelInfo:
+		return SlogLevelInfo
+	case slog.LevelWarn:
+		return SlogLevelWarning
+	case slog.LevelError:
+		return SlogLevelError
+	case slog.Level(12):
+		return SlogLevelFatal
+	case slog.Level(16):
+		return SlogLevelOff
+	}
+	return SlogLevelOff
 }
 
 //
 
-func (enum LoggerFormat) SlogHandlerFunc(w io.Writer, opts *slog.HandlerOptions) slog.Handler {
+const (
+	SlogTextFormat CustomSlogFormat = iota
+	SlogJsonFormat
+)
+
+type CustomSlogFormat int
+
+func (enum CustomSlogFormat) String() string {
 	switch enum {
-	case UndefinedLoggerFormat:
+	case SlogTextFormat:
+		return "TEXT"
+	case SlogJsonFormat:
+		return "JSON"
+	}
+	return "TEXT"
+}
+
+func (enum CustomSlogFormat) ValueFromName(loggerFormat string) CustomSlogFormat {
+	switch loggerFormat {
+	case "TEXT":
+		return SlogTextFormat
+	case "JSON":
+		return SlogJsonFormat
+	}
+	return SlogTextFormat
+}
+
+func (enum CustomSlogFormat) ValueFromCardinal(loggerFormat int) CustomSlogFormat {
+	switch loggerFormat {
+	case int(SlogTextFormat):
+		return SlogTextFormat
+	case int(SlogJsonFormat):
+		return SlogJsonFormat
+	}
+	return SlogTextFormat
+}
+
+func (enum CustomSlogFormat) SlogHandlerFunc(w io.Writer, opts *slog.HandlerOptions) slog.Handler {
+	switch enum {
+	case SlogTextFormat:
 		return slog.NewTextHandler(w, opts)
-	case TextLoggerFormat:
-		return slog.NewTextHandler(w, opts)
-	case JsonLoggerFormat:
+	case SlogJsonFormat:
 		return slog.NewJSONHandler(w, opts)
 	}
 	return slog.NewTextHandler(w, opts)
