@@ -2,6 +2,7 @@ package properties
 
 import (
 	"os"
+	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -73,4 +74,101 @@ func Test_PropertiesBuilderFromArray_Error(t *testing.T) {
 
 	assert.NotNil(t, properties)
 	assert.Equal(t, 0, len(properties.internalMap))
+}
+
+func TestFromArray(t *testing.T) {
+	type args struct {
+		array *[]string
+	}
+	tests := []struct {
+		name string
+		args args
+		want DefaultPropertiesOption
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := FromArray(tt.args.array); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("FromArray() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestNewDefaultProperties(t *testing.T) {
+	type args struct {
+		options []DefaultPropertiesOption
+	}
+	tests := []struct {
+		name string
+		args args
+		want *DefaultProperties
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := NewDefaultProperties(tt.args.options...); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewDefaultProperties() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultProperties_Add(t *testing.T) {
+	type args struct {
+		property string
+		value    string
+	}
+	tests := []struct {
+		name string
+		p    *DefaultProperties
+		args args
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.p.Add(tt.args.property, tt.args.value)
+		})
+	}
+}
+
+func TestDefaultProperties_Get(t *testing.T) {
+	type args struct {
+		property string
+	}
+	tests := []struct {
+		name string
+		p    *DefaultProperties
+		args args
+		want string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.p.Get(tt.args.property); got != tt.want {
+				t.Errorf("DefaultProperties.Get() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultProperties_AsMap(t *testing.T) {
+	tests := []struct {
+		name string
+		p    *DefaultProperties
+		want map[string]string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.p.AsMap(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultProperties.AsMap() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

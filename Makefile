@@ -43,5 +43,7 @@ prepare:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install github.com/golang/mock/mockgen@latest
 	go install github.com/cweill/gotests/gotests@latest
+	go install github.com/rakyll/gotest@latest
+	go install github.com/jondot/goweight@latest
 	go mod download
 	go mod tidy

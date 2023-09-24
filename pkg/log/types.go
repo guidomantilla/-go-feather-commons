@@ -5,6 +5,17 @@ import (
 	"strings"
 )
 
+type Logger interface {
+	Debug(ctx context.Context, msg string, args ...any)
+	Info(ctx context.Context, msg string, args ...any)
+	Warn(ctx context.Context, msg string, args ...any)
+	Error(ctx context.Context, msg string, args ...any)
+	Fatal(ctx context.Context, msg string, args ...any)
+	RetrieveLogger() any
+}
+
+//
+
 const (
 	UndefinedLoggerFormat LoggerFormat = iota
 	TextLoggerFormat
@@ -123,15 +134,4 @@ func (enum LoggerLevel) ValueFromCardinal(loggerLevel int) LoggerLevel {
 		return OffLoggerLevel
 	}
 	return UndefinedLoggerLevel
-}
-
-//
-
-type Logger interface {
-	Debug(ctx context.Context, msg string, args ...any)
-	Info(ctx context.Context, msg string, args ...any)
-	Warn(ctx context.Context, msg string, args ...any)
-	Error(ctx context.Context, msg string, args ...any)
-	Fatal(ctx context.Context, msg string, args ...any)
-	RetrieveLogger() any
 }
