@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestNewDefaultLogger(t *testing.T) {
+func TestNewSlogLogger(t *testing.T) {
 	type args struct {
 		level  LoggerLevel
 		format LoggerFormat
@@ -22,7 +22,7 @@ func TestNewDefaultLogger(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewDefaultLogger(tt.args.level, tt.args.format); !reflect.DeepEqual(got, tt.want) {
+			if got := NewSlogLogger(tt.args.level, tt.args.format); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewDefaultLogger() = %v, want %v", got, tt.want)
 			}
 		})

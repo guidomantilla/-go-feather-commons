@@ -11,7 +11,7 @@ type SlogLogger struct {
 	internal *slog.Logger
 }
 
-func NewDefaultLogger(level LoggerLevel, format LoggerFormat) *SlogLogger {
+func NewSlogLogger(level LoggerLevel, format LoggerFormat) *SlogLogger {
 	opts := &slog.HandlerOptions{
 		Level: SlogLevelOff.ValueFromLoggerLevel(level).ToSlogLevel(),
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
