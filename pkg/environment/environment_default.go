@@ -7,7 +7,7 @@ const (
 	CmdPropertySourceName = "CMD_PROPERTY_SOURCE_NAME" //nolint:gosec
 )
 
-type DefaultEnvironmentOption = func(environment *DefaultEnvironment)
+type DefaultEnvironmentOption func(environment *DefaultEnvironment)
 
 func WithArrays(osArgsArray *[]string, cmdArgsArray *[]string) DefaultEnvironmentOption {
 	return func(environment *DefaultEnvironment) {
