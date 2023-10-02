@@ -1,6 +1,7 @@
 package environment
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -93,4 +94,25 @@ func Test_AppendPropertySources(t *testing.T) {
 	assert.NotEmpty(t, propertySources)
 	assert.Equal(t, "some_property_source1", environment.propertySources[0].AsMap()["name"])
 	assert.Equal(t, "some_property_source2", environment.propertySources[1].AsMap()["name"])
+}
+
+func Test_WithArraySource(t *testing.T) {
+
+	environment := NewDefaultEnvironment(WithArraySource("some_property_source3", &[]string{"some_property", "some_value"}))
+
+	propertySources := WithArraySource("some_property_source3", &[]string{"some_property", "some_value"})
+
+	assert.NotNil(t, propertySources)
+	assert.NotEmpty(t, propertySources)
+	assert.Equal(t, "some_property_source3", environment.propertySources[0].AsMap()["name"])
+}
+
+func Test_WithArrays(t *testing.T) {
+
+	osArgs := os.Environ()
+	cmdArgs := []string{"some_property", "some_value"}
+	environment := NewDefaultEnvironment(WithArrays(&osArgs, &cmdArgs))
+
+	assert.Equal(t, OsPropertySourceName, environment.propertySources[0].AsMap()["name"])
+	assert.Equal(t, CmdPropertySourceName, environment.propertySources[1].AsMap()["name"])
 }

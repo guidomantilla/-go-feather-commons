@@ -1,8 +1,13 @@
 package config
 
-import "testing"
+import (
+	feather_commons_environment "github.com/guidomantilla/go-feather-commons/pkg/environment"
+	"os"
+	"testing"
+)
 
 func TestEnvironmentLookup_Lookup(t *testing.T) {
+
 	type args struct {
 		key string
 	}
@@ -13,7 +18,35 @@ func TestEnvironmentLookup_Lookup(t *testing.T) {
 		want     string
 		want1    bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "EnvVar exists",
+			lookuper: &EnvironmentLookup{
+				environment: func() feather_commons_environment.Environment {
+					if err := os.Setenv("SOME_ENV_VAR", "some-value"); err != nil {
+						t.Errorf(err.Error())
+					}
+					return feather_commons_environment.Default()
+				}(),
+			},
+			args: args{
+				key: "SOME_ENV_VAR",
+			},
+			want:  "some-value",
+			want1: true,
+		},
+		{
+			name: "EnvVar not exists",
+			lookuper: &EnvironmentLookup{
+				environment: func() feather_commons_environment.Environment {
+					return feather_commons_environment.Default()
+				}(),
+			},
+			args: args{
+				key: "SOME_ENV_VAR_",
+			},
+			want:  "",
+			want1: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

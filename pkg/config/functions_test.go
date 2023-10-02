@@ -8,6 +8,12 @@ import (
 )
 
 func TestProcess(t *testing.T) {
+	env := feather_commons_environment.Default()
+	config := &struct {
+		SomeEnvVar string `envconfig:"SOME_ENV_VAR"`
+	}{
+		SomeEnvVar: "some-value",
+	}
 	type args struct {
 		ctx         context.Context
 		environment feather_commons_environment.Environment
@@ -18,7 +24,15 @@ func TestProcess(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Happy Path",
+			args: args{
+				ctx:         context.TODO(),
+				environment: env,
+				config:      config,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
