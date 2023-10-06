@@ -1,9 +1,10 @@
 package config
 
 import (
-	feather_commons_environment "github.com/guidomantilla/go-feather-commons/pkg/environment"
 	"os"
 	"testing"
+
+	feather_commons_environment "github.com/guidomantilla/go-feather-commons/pkg/environment"
 )
 
 func TestEnvironmentLookup_Lookup(t *testing.T) {
