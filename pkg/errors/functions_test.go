@@ -1,6 +1,9 @@
 package errors
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestErrJoin(t *testing.T) {
 	type args struct {
@@ -11,7 +14,17 @@ func TestErrJoin(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Happy path",
+			args: args{
+				errs: []error{
+					errors.New("error 1"),
+					errors.New("error 2"),
+					errors.Join(errors.New("error 3"), errors.New("error 4")),
+				},
+			},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
