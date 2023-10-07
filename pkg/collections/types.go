@@ -29,12 +29,12 @@ type CountFunc[ID IDAllowedTypes, V ValueAllowedTypes] func(index int, id ID, it
 
 type Items[ID IDAllowedTypes, V ValueAllowedTypes] interface {
 	IDs() []ID
-	Values() []*V
+	Values() []V
 	Contains(id ID) bool
 	Find(id ID) (*V, error)
 	Filter(filterFunc FilterFunc[ID, V]) Items[ID, V]
 	Count(countFunc CountFunc[ID, V]) int
-	Select(ids []ID) []*V
+	Select(ids []ID) []V
 	ForEach(iteratee IterateeFunc[ID, V])
 }
 

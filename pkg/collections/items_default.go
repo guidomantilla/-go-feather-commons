@@ -5,7 +5,7 @@ import (
 )
 
 type DefaultItems[ID IDAllowedTypes, V ValueAllowedTypes] struct {
-	internalMap   map[ID]*V
+	internalMap   map[ID]V
 	internalArray []Item[ID, V]
 }
 
@@ -21,7 +21,7 @@ func (items *DefaultItems[ID, V]) IDs() []ID {
 	return Keys(items.internalMap)
 }
 
-func (items *DefaultItems[ID, V]) Values() []*V {
+func (items *DefaultItems[ID, V]) Values() []V {
 	return Values(items.internalMap)
 }
 
@@ -35,7 +35,7 @@ func (items *DefaultItems[ID, V]) Find(id ID) (*V, error) {
 	if !ok {
 		return nil, fmt.Errorf("item %v not found", id)
 	}
-	return model, nil
+	return &model, nil
 }
 
 func (items *DefaultItems[ID, V]) Filter(filterFunc FilterFunc[ID, V]) Items[ID, V] {
@@ -51,11 +51,11 @@ func (items *DefaultItems[ID, V]) Count(countFunc CountFunc[ID, V]) int {
 	})
 }
 
-func (items *DefaultItems[ID, V]) Select(ids []ID) []*V {
-	result := make([]*V, 0, len(ids))
+func (items *DefaultItems[ID, V]) Select(ids []ID) []V {
+	result := make([]V, 0, len(ids))
 	for _, id := range ids {
 		value, _ := items.Find(id)
-		result = append(result, value)
+		result = append(result, *value)
 	}
 	return result
 }
