@@ -2,7 +2,6 @@ package collections
 
 import "math/rand"
 
-// func ToMap[ID IDAllowedTypes, M ValueAllowedTypes](items ...Item[ID, M]) map[ID]*M {
 func ToMap[ID IDAllowedTypes, M ValueAllowedTypes](items ...Item[ID, M]) map[ID]*M {
 
 	if len(items) == 0 {
