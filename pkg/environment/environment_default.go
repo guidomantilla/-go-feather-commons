@@ -9,7 +9,7 @@ const (
 
 type DefaultEnvironmentOption func(environment *DefaultEnvironment)
 
-func WithArrays(osArgsArray *[]string, cmdArgsArray *[]string) DefaultEnvironmentOption {
+func WithArrays(osArgsArray []string, cmdArgsArray []string) DefaultEnvironmentOption {
 	return func(environment *DefaultEnvironment) {
 		osSource := feather_commons_properties.NewDefaultPropertySource(OsPropertySourceName, feather_commons_properties.NewDefaultProperties(feather_commons_properties.FromArray(osArgsArray)))
 		cmdSource := feather_commons_properties.NewDefaultPropertySource(CmdPropertySourceName, feather_commons_properties.NewDefaultProperties(feather_commons_properties.FromArray(cmdArgsArray)))
@@ -17,7 +17,7 @@ func WithArrays(osArgsArray *[]string, cmdArgsArray *[]string) DefaultEnvironmen
 	}
 }
 
-func WithArraySource(name string, array *[]string) DefaultEnvironmentOption {
+func WithArraySource(name string, array []string) DefaultEnvironmentOption {
 	return func(environment *DefaultEnvironment) {
 		source := feather_commons_properties.NewDefaultPropertySource(name, feather_commons_properties.NewDefaultProperties(feather_commons_properties.FromArray(array)))
 		environment.propertySources = append(environment.propertySources, source)

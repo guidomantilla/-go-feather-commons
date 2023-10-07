@@ -61,7 +61,7 @@ func Test_NewDefaultProperties(t *testing.T) {
 func Test_PropertiesBuilderFromArray_Ok(t *testing.T) {
 
 	osArgs := os.Environ()
-	properties := NewDefaultProperties(FromArray(&osArgs))
+	properties := NewDefaultProperties(FromArray(osArgs))
 
 	assert.NotNil(t, properties)
 	assert.Equal(t, len(osArgs), len(properties.internalMap))
@@ -70,7 +70,7 @@ func Test_PropertiesBuilderFromArray_Ok(t *testing.T) {
 func Test_PropertiesBuilderFromArray_Error(t *testing.T) {
 
 	args := []string{"ola", "adios"}
-	properties := NewDefaultProperties(FromArray(&args))
+	properties := NewDefaultProperties(FromArray(args))
 
 	assert.NotNil(t, properties)
 	assert.Equal(t, 0, len(properties.internalMap))
@@ -78,7 +78,7 @@ func Test_PropertiesBuilderFromArray_Error(t *testing.T) {
 
 func TestFromArray(t *testing.T) {
 	type args struct {
-		array *[]string
+		array []string
 	}
 	tests := []struct {
 		name string

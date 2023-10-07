@@ -19,14 +19,14 @@ func retrieveSingleton() Environment {
 
 func Default() Environment {
 	envs := os.Environ()
-	env := NewDefaultEnvironment(WithArraySource(OsPropertySourceName, &envs))
+	env := NewDefaultEnvironment(WithArraySource(OsPropertySourceName, envs))
 	singleton.Store(env)
 	return env
 }
 
-func Custom(cmdArgsArray *[]string) Environment {
+func Custom(cmdArgsArray []string) Environment {
 	envs := os.Environ()
-	env := NewDefaultEnvironment(WithArrays(&envs, cmdArgsArray))
+	env := NewDefaultEnvironment(WithArrays(envs, cmdArgsArray))
 	singleton.Store(env)
 	return env
 }

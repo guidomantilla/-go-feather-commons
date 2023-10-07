@@ -98,9 +98,9 @@ func Test_AppendPropertySources(t *testing.T) {
 
 func Test_WithArraySource(t *testing.T) {
 
-	environment := NewDefaultEnvironment(WithArraySource("some_property_source3", &[]string{"some_property", "some_value"}))
+	environment := NewDefaultEnvironment(WithArraySource("some_property_source3", []string{"some_property", "some_value"}))
 
-	propertySources := WithArraySource("some_property_source3", &[]string{"some_property", "some_value"})
+	propertySources := WithArraySource("some_property_source3", []string{"some_property", "some_value"})
 
 	assert.NotNil(t, propertySources)
 	assert.NotEmpty(t, propertySources)
@@ -111,7 +111,7 @@ func Test_WithArrays(t *testing.T) {
 
 	osArgs := os.Environ()
 	cmdArgs := []string{"some_property", "some_value"}
-	environment := NewDefaultEnvironment(WithArrays(&osArgs, &cmdArgs))
+	environment := NewDefaultEnvironment(WithArrays(osArgs, cmdArgs))
 
 	assert.Equal(t, OsPropertySourceName, environment.propertySources[0].AsMap()["name"])
 	assert.Equal(t, CmdPropertySourceName, environment.propertySources[1].AsMap()["name"])

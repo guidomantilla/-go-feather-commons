@@ -18,7 +18,7 @@ func Default() Properties {
 	return properties
 }
 
-func Custom(array *[]string) Properties {
+func Custom(array []string) Properties {
 	properties := NewDefaultProperties(FromArray(array))
 	singleton.Store(properties)
 	return properties

@@ -11,7 +11,7 @@ import (
 func Test_retrieveSingleton(t *testing.T) {
 
 	envs := os.Environ()
-	env := NewDefaultEnvironment(WithArraySource(OsPropertySourceName, &envs))
+	env := NewDefaultEnvironment(WithArraySource(OsPropertySourceName, envs))
 
 	tests := []struct {
 		name string
@@ -38,7 +38,7 @@ func Test_retrieveSingleton(t *testing.T) {
 func TestDefault(t *testing.T) {
 
 	envs := os.Environ()
-	env := NewDefaultEnvironment(WithArraySource(OsPropertySourceName, &envs))
+	env := NewDefaultEnvironment(WithArraySource(OsPropertySourceName, envs))
 
 	tests := []struct {
 		name string
@@ -62,10 +62,10 @@ func TestCustom(t *testing.T) {
 
 	osArgs := os.Environ()
 	cmdArgs := []string{"some_property=some_value"}
-	env := NewDefaultEnvironment(WithArrays(&osArgs, &cmdArgs))
+	env := NewDefaultEnvironment(WithArrays(osArgs, cmdArgs))
 
 	type args struct {
-		cmdArgsArray *[]string
+		cmdArgsArray []string
 	}
 	tests := []struct {
 		name string
@@ -75,7 +75,7 @@ func TestCustom(t *testing.T) {
 		{
 			name: "Happy Path",
 			args: args{
-				cmdArgsArray: &cmdArgs,
+				cmdArgsArray: cmdArgs,
 			},
 			want: env,
 		},
@@ -91,7 +91,7 @@ func TestCustom(t *testing.T) {
 
 func TestGetValue(t *testing.T) {
 	cmdArgs := []string{"some_property=some_value"}
-	Custom(&cmdArgs)
+	Custom(cmdArgs)
 	type args struct {
 		property string
 	}
@@ -119,7 +119,7 @@ func TestGetValue(t *testing.T) {
 
 func TestGetValueOrDefault(t *testing.T) {
 	cmdArgs := []string{"some_property=some_value"}
-	Custom(&cmdArgs)
+	Custom(cmdArgs)
 	type args struct {
 		property     string
 		defaultValue string

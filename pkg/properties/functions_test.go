@@ -39,7 +39,7 @@ func TestDefault(t *testing.T) {
 
 func TestCustom(t *testing.T) {
 	type args struct {
-		array *[]string
+		array []string
 	}
 	tests := []struct {
 		name string
