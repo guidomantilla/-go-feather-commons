@@ -32,28 +32,28 @@ func Custom(writers ...io.Writer) Logger {
 
 //
 
-func Debug(ctx context.Context, msg string, args ...any) {
+func Debug(msg string, args ...any) {
 	slogLogger := retrieveSingleton()
-	slogLogger.Debug(ctx, msg, args...)
+	slogLogger.Debug(context.Background(), msg, args...)
 }
 
-func Info(ctx context.Context, msg string, args ...any) {
+func Info(msg string, args ...any) {
 	slogLogger := retrieveSingleton()
-	slogLogger.Info(ctx, msg, args...)
+	slogLogger.Info(context.Background(), msg, args...)
 }
 
-func Warn(ctx context.Context, msg string, args ...any) {
+func Warn(msg string, args ...any) {
 	slogLogger := retrieveSingleton()
-	slogLogger.Warn(ctx, msg, args...)
+	slogLogger.Warn(context.Background(), msg, args...)
 }
 
-func Error(ctx context.Context, msg string, args ...any) {
+func Error(msg string, args ...any) {
 	slogLogger := retrieveSingleton()
-	slogLogger.Error(ctx, msg, args...)
+	slogLogger.Error(context.Background(), msg, args...)
 }
 
-func Fatal(ctx context.Context, msg string, args ...any) {
+func Fatal(msg string, args ...any) {
 	slogLogger := retrieveSingleton()
-	slogLogger.Fatal(ctx, msg, args...)
+	slogLogger.Fatal(context.Background(), msg, args...)
 	os.Exit(1)
 }
