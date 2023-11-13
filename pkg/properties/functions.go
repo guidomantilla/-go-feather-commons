@@ -1,6 +1,8 @@
 package properties
 
-import "sync/atomic"
+import (
+	"sync/atomic"
+)
 
 var singleton atomic.Value
 

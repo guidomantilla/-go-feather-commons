@@ -1,6 +1,8 @@
 package resilience
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestRun(t *testing.T) {
 	type args struct {
